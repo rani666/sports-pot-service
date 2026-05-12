@@ -7,7 +7,7 @@ namespace sports_pot_service.Services;
 public class JackpotConfigService
 {
     private static readonly HashSet<string> ValidTriggerEvents =
-        new(StringComparer.OrdinalIgnoreCase) { "Goal", "Offside", "Corner", "Card" };
+        new(StringComparer.OrdinalIgnoreCase) { "Goal", "Red card", "Penalty", "VAR event", "Custom events" };
 
     private readonly IMongoCollection<GlobalJackpotConfig> _collection;
 
@@ -29,7 +29,7 @@ public class JackpotConfigService
             DefaultSeed = 100,
             DefaultContribution = 0.1,
             DefaultCap = 1000,
-            TriggerEvents = ["Goal", "Offside", "Corner", "Card"],
+            TriggerEvents = ["Goal", "Red card", "Penalty", "VAR event", "Custom events"],
             MinOdds = 1.5,
             MinStake = 1,
             EligibleMarkets = ["Match winner", "Over/under"],
