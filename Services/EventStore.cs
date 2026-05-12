@@ -17,16 +17,15 @@ public class EventStore
 
     public void Apply(JsonElement root)
     {
-        if (root.TryGetProperty("timestamp", out var ts) && ts.TryGetInt64(out var tsVal))
-            LastTimestamp = tsVal;
-
-        if (!root.TryGetProperty("events", out var eventsEl))
+        if (!root.TryGetProperty("data", out var dataEl))
             return;
 
-        foreach (var ev in eventsEl.EnumerateArray())
+        foreach (var ev in dataEl.EnumerateArray())
         {
             var key = ev.TryGetProperty("id", out var id) ? id.ToString() : Guid.NewGuid().ToString();
             _events[key] = ev.Clone();
         }
+
+        LastTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
     }
 }
