@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDb"));
 
+builder.Services.AddHttpClient("events");
+builder.Services.AddSingleton<EventStore>();
+builder.Services.AddHostedService<EventSyncService>();
 builder.Services.AddSingleton<SportsPotService>();
 builder.Services.AddSingleton<JackpotConfigService>();
 builder.Services.AddSingleton<JackpotPotService>();

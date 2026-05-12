@@ -9,15 +9,21 @@ namespace sports_pot_service.Controllers;
 public class SportsPotController : ControllerBase
 {
     private readonly SportsPotService _service;
+    private readonly EventStore _eventStore;
 
-    public SportsPotController(SportsPotService service)
+    public SportsPotController(SportsPotService service, EventStore eventStore)
     {
         _service = service;
+        _eventStore = eventStore;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<SportsPot>>> GetAll() =>
         Ok(await _service.GetAllAsync());
+
+    [HttpGet("events")]
+    public ActionResult<IReadOnlyDictionary<string, object>> GetAllEvents() =>
+        Ok(_eventStore.Events);
 
     [HttpGet("{id}")]
     public async Task<ActionResult<SportsPot>> GetById(string id)
